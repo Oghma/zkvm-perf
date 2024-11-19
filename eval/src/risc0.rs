@@ -28,6 +28,7 @@ impl Risc0Evaluator {
         let elf = fs::read(&elf_path).unwrap();
         let image_id = compute_image_id(elf.as_slice()).unwrap();
 
+        // Setup the prover.
         // If the program is Reth, read the block and set it as input. Otherwise, we assume other
         // benchmarking programs don't have input.
         let env = if args.program == ProgramId::Reth {
@@ -44,27 +45,12 @@ impl Risc0Evaluator {
 
         // Compute some statistics.
         let mut exec = ExecutorImpl::from_elf(env, &elf).unwrap();
-        let session = exec.run().unwrap();
+        // Generate the session.
+        let (session, execution_duration) = time_operation(|| exec.run().unwrap());
         let cycles = session.user_cycles;
 
-        // Setup the prover.
-        let env = if args.program == ProgramId::Reth {
-            let input = get_reth_input(args);
-            ExecutorEnv::builder()
-                .segment_limit_po2(args.shard_size as u32)
-                .write(&input)
-                .expect("Failed to write input to executor")
-                .build()
-                .unwrap()
-        } else {
-            ExecutorEnv::builder().segment_limit_po2(args.shard_size as u32).build().unwrap()
-        };
         let opts = ProverOpts::default();
         let prover = get_prover_server(&opts).unwrap();
-
-        // Generate the session.
-        let mut exec = ExecutorImpl::from_elf(env, &elf).unwrap();
-        let (session, execution_duration) = time_operation(|| exec.run().unwrap());
 
         // Generate the proof.
         let ctx = VerifierContext::default();
