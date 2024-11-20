@@ -5,7 +5,7 @@ name = "tendermint-sp1"
 edition = "2021"
 
 [dependencies]
-sp1-zkvm = { git = "https://github.com/succinctlabs/sp1", branch = "dev" }
+sp1-zkvm = "3.2.1"
 
 
 serde = { version = "1.0.204", default-features = false, features = ["derive"] }
