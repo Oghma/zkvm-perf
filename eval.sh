@@ -58,17 +58,9 @@ export RUST_LOG=info
 
 # Determine the features based on GPU existence.
 if [ "$GPU_EXISTS" = true ]; then
-  FEATURES="cuda"
+  FEATURES="$2, cuda"
 else
-  FEATURES="default"
-fi
-
-if [ "$2" == "risc0" ]; then
- if [ "$GPU_EXISTS" = true ]; then 
-  FEATURES="risc0, cuda"
- else
- FEATURES="risc0" 
- fi
+  FEATURES="$2"
 fi
 
 # Run the benchmark.
