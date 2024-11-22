@@ -5,23 +5,21 @@ use crate::{
     EvalArgs, PerformanceReport, ProgramId,
 };
 
-use sp1_core_executor::SP1Context;
-
-use sp1_prover::{components::DefaultProverComponents, utils::get_cycles, SP1Prover};
-use sp1_core_machine::io::SP1Stdin;
-
 #[cfg(feature = "cuda")]
 use sp1_cuda::SP1CudaProver;
 
-#[cfg(not(feature = "cuda"))]
-use sp1_stark::SP1ProverOpts;
+#[cfg(feature = "sp1")]
+use sp1_prover::{components::DefaultProverComponents, utils::get_cycles};
+#[cfg(feature = "sp1")]
+use sp1_sdk::{provers::ProofOpts, utils::setup_logger, SP1Context, SP1Prover, SP1Stdin};
 
 pub struct SP1Evaluator;
 
 impl SP1Evaluator {
+    #[cfg(feature = "sp1")]
     pub fn eval(args: &EvalArgs) -> PerformanceReport {
         // Setup the logger.
-        sp1_core_machine::utils::setup_logger();
+        setup_logger();
 
         // Set enviroment variables to configure the prover.
         std::env::set_var("SHARD_SIZE", format!("{}", 1 << args.shard_size));
@@ -59,7 +57,7 @@ impl SP1Evaluator {
 
         // Setup the prover opionts.
         #[cfg(not(feature = "cuda"))]
-        let opts = SP1ProverOpts::default();
+        let opts = ProofOpts::default().sp1_prover_opts;
 
         // Generate the core proof (CPU).
         #[cfg(not(feature = "cuda"))]
@@ -110,5 +108,10 @@ impl SP1Evaluator {
             compress_verify_duration: 0.0, // TODO: fill this in.
             compress_proof_size: compress_bytes.len(),
         }
+    }
+
+    #[cfg(not(feature = "sp1"))]
+    pub fn eval(_args: &EvalArgs) -> PerformanceReport {
+        panic!("SP1 feature is not enabled. Please compile with --features sp1");
     }
 }
