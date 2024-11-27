@@ -6,7 +6,6 @@ echo "Running eval script"
 TARGET = "target/delendum-unknown-baremetal-gnu/release/$1"
 BENCHMARKS_DIR="benchmarks"
 LITA_PROOF="lita_proof"
-FLAGS=
 
 # Get the current git commit hash
 if ! COMMIT_HASH=$(git rev-parse --short HEAD 2>/dev/null); then
