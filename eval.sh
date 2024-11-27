@@ -33,6 +33,18 @@ if [ "$2" == "risc0" ]; then
         cargo build --release --ignore-rust-version --features $2
 fi
 
+if [ "$2" == "lita" ]; then
+  echo "Building Lita"
+  # Use the lita toolchain. We need to pass
+  "$HOME/.valida/bin:$PATH" CPATH="$HOME/.valida/include" \
+    cargo +valida build --release --features $2
+
+  # Lita does not have any hardware acceleration. Also it does not have an SDK
+  # or a crate to be used on rust. We need to benchmark it without rust
+  ./eval-lita.sh $1 $2 $3
+  exit
+fi
+
 cd ../../
 
 echo "Running eval script"
