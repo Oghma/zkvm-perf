@@ -3,7 +3,8 @@ set -e
 
 echo "Running eval script"
 
-TARGET = "target/delendum-unknown-baremetal-gnu/release/$1"
+TARGET="programs/$4/target/delendum-unknown-baremetal-gnu/release/$1"
+VALIDA_EXECUTABLE="/valida-toolchain/bin/valida"
 BENCHMARKS_DIR="benchmarks"
 LITA_PROOF="lita_proof"
 
@@ -14,28 +15,30 @@ if ! COMMIT_HASH=$(git rev-parse --short HEAD 2>/dev/null); then
 fi
 
 # CSV files
-CSV_FILE_LATEST="$BENCHMARKS_DIR/benchmark_latest.csv"
+CSV_FILE_LATEST="$BENCHMARKS_DIR/benchmarks_latest.csv"
 CSV_FILE_COMMIT="$BENCHMARKS_DIR/benchmark_${COMMIT_HASH}.csv"
 # CSV header
 HEADER="program,prover,hashfn,shard_size,shards,cycles,speed,execution_duration,prove_duration,core_prove_duration,core_verify_duration,core_proof_size,compress_prove_duration,compress_verify_duration,compress_proof_size"
 
+# Ensure the benchmarks directory exists
+mkdir -p "$BENCHMARKS_DIR"
+
 # Function to create CSV file with header if it doesn't exist
 create_csv_if_not_exists() {
-    local file="$1"
-    if [ ! -f "$file" ]; then
-        echo "$HEADER" > "$file"
+    if [ ! -f "$1" ]; then
+        echo "$HEADER" > "$1"
+        echo "$HEADER" > "$2"
     fi
 }
 
 # Create CSV files if they don't exist
-create_csv_if_not_exists "$CSV_FILE_LATEST"
-create_csv_if_not_exists "$CSV_FILE_COMMIT"
+create_csv_if_not_exists "$CSV_FILE_COMMIT" "$CSV_FILE_LATEST"
 
 # Measure the execution time of the 'valida prove' command
 start_time_prove=$(date +%s.%N)
 
-"$HOME/.valida/bin:$PATH" CPATH="$HOME/.valida/include$" \
-    valida prove "$TARGET" "$LITA_PROOF"
+
+"$VALIDA_EXECUTABLE" prove "$TARGET" "$LITA_PROOF"
 
 end_time_prove=$(date +%s.%N)
 
@@ -48,8 +51,7 @@ proof_size=$(stat -c%s "$LITA_PROOF")
 # Measure the executiuon time of the 'valida verify' command
 start_time_verify=$(date +%s.%N)
 
-"$HOME/.valida/bin:$PATH" CPATH="$HOME/.valida/include$" \
-    valida verify "$TARGET" "$LITA_PROOF"
+"$VALIDA_EXECUTABLE" verify "$TARGET" "$LITA_PROOF"
 
 end_time_verify=$(date +%s.%N)
 # Calculate elapsed time in seconds with high precision

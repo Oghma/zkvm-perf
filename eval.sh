@@ -35,13 +35,17 @@ fi
 
 if [ "$2" == "lita" ]; then
   echo "Building Lita"
-  # Use the lita toolchain. We need to pass
-  "$HOME/.valida/bin:$PATH" CPATH="$HOME/.valida/include" \
-    cargo +valida build --release --features $2
+  # Use the lita toolchain.
+  CC_delendum_unknown_baremetal_gnu="/valida-toolchain/bin/clang" \
+    CFLAGS_delendum_unknown_baremetal_gnu="--sysroot=/valida-toolchain -isystem /valida-toolchain/include" \
+    RUSTUP_TOOLCHAIN=valida \
+    CARGO_BUILD_TARGET=delendum-unknown-baremetal-gnu \
+    cargo build --release --ignore-rust-version --features $2
 
   # Lita does not have any hardware acceleration. Also it does not have an SDK
   # or a crate to be used on rust. We need to benchmark it without rust
-  ./eval-lita.sh $1 $2 $3
+  cd ../../
+  ./eval_lita.sh $1 $2 $3 $program_directory
   exit
 fi
 
