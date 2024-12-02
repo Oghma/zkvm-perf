@@ -1,2 +1,0 @@
-#!/usr/bin/env bash
-bash --init-file <(echo 'export PATH="$HOME/.valida/bin:$PATH"; export CPATH="$HOME/.valida/include"; PS1="valida> "')

@@ -39,7 +39,6 @@ cargo risczero --version || error_exit "Checking cargo risczero version"
 wget https://github.com/lita-xyz/llvm-valida-releases/releases/download/v0.5.0-alpha/llvm-valida-v0.5.0-alpha-linux-x86_64.tar.xz || error_exit "Downloading lita toolchain"
 tar xf llvm-valida-v0.5.0-alpha-linux-x86_64.tar.xz || error_exit "Extracting lita toolchain"
 cp install_lita_toolchain.sh valida-toolchain/install.sh
-cp valida-shell valida-toolchain/valida-shell
 cd valida-toolchain
 ./install.sh || error_exit "Installing lita toolchain"
 cd ../
