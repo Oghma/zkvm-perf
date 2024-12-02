@@ -25,6 +25,9 @@ sp1_zkvm::entrypoint!(main);
 #[cfg(target_os = "zkvm")]
 use core::arch::asm;
 
+#[cfg(feature = "lita")]
+valida_rs::entrypoint!(main);
+
 fn main() {
     let iterations = 3000 * 1024;
     for i in 0..iterations {
