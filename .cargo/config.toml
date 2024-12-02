@@ -1,0 +1,9 @@
+[target.delendum-unknown-baremetal-gnu]
+linker = "/valida-toolchain//bin/ld.lld"
+rustflags = [
+    "-C", "link-arg=/valida-toolchain//DelendumEntryPoint.o",
+    "-C", "link-arg=--script=/valida-toolchain//valida.ld",
+    "-C", "link-arg=/valida-toolchain//lib/delendum-unknown-baremetal-gnu/libc.a",
+    "-C", "link-arg=/valida-toolchain//lib/delendum-unknown-baremetal-gnu/libm.a",
+    "-C", "link-arg=--noinhibit-exec",
+]
