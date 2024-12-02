@@ -1,0 +1,18 @@
+[workspace]
+[package]
+name = "tendermint-lita"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+valida-rs = { git = "https://github.com/lita-xyz/valida-rs.git", rev ="84df845"}
+
+serde = { version = "1.0.204", default-features = false, features = ["derive"] }
+serde_json = { version = "1.0", default-features = false, features = ["alloc"] }
+tendermint = { version = "0.34.0", default-features = false }
+tendermint-light-client-verifier = { version = "0.34.0", default-features = false, features = [
+    "rust-crypto",
+] }
+
+[features]
+lita = []
