@@ -70,7 +70,7 @@ elapsed_time_verify=$(echo "$end_time_verify - $start_time_verify" | bc -l)
 # - 'core_proof_size': $proof_size (field 12)
 # Other fields remain empty
 
-line="$1,$2,,,,,,,,,$elapsed_time_prove,$elapsed_time_verify,$proof_size,,,"
+line="$1,$2,poseidon,,,,,,,,$elapsed_time_prove,$elapsed_time_verify,$proof_size,,,"
 
 # Append the line to each CSV file
 echo "$line" >> "$CSV_FILE_LATEST"
