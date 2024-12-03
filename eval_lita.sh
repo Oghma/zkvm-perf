@@ -3,7 +3,7 @@ set -e
 
 echo "Running eval script"
 
-TARGET="programs/$4/target/delendum-unknown-baremetal-gnu/release/$1"
+TARGET="programs/$4/target/delendum-unknown-baremetal-gnu/release/$4"
 VALIDA_EXECUTABLE="/valida-toolchain/bin/valida"
 BENCHMARKS_DIR="benchmarks"
 LITA_PROOF="lita_proof"
