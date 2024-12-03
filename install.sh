@@ -36,13 +36,13 @@ rzup install || error_exit "Updating Risc Zero toolchain"
 cargo risczero --version || error_exit "Checking cargo risczero version"
 
 # Install Lita toolchain
-wget https://github.com/lita-xyz/llvm-valida-releases/releases/download/v0.5.0-alpha/llvm-valida-v0.5.0-alpha-linux-x86_64.tar.xz || error_exit "Downloading lita toolchain"
-tar xf llvm-valida-v0.5.0-alpha-linux-x86_64.tar.xz || error_exit "Extracting lita toolchain"
+wget https://github.com/lita-xyz/llvm-valida-releases/releases/download/v0.6.0-alpha/llvm-valida-v0.6.0-alpha-linux-x86_64.tar.xz || error_exit "Downloading lita toolchain"
+tar xf llvm-valida-v0.6.0-alpha-linux-x86_64.tar.xz || error_exit "Extracting lita toolchain"
 cp install_lita_toolchain.sh valida-toolchain/install.sh
 cd valida-toolchain
 ./install.sh || error_exit "Installing lita toolchain"
 cd ../
-rm llvm-valida-v0.5.0-alpha-linux-x86_64.tar.xz
+rm llvm-valida-v0.6.0-alpha-linux-x86_64.tar.xz
 rm -rf valida-toolchain
 
 echo "All installations completed successfully."
