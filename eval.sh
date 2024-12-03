@@ -45,7 +45,7 @@ if [ "$2" == "lita" ]; then
   # Lita does not have any hardware acceleration. Also it does not have an SDK
   # or a crate to be used on rust. We need to benchmark it without rust
   cd ../../
-  ./eval_lita.sh $1 $2 $3 $program_directory
+  ./eval_lita.sh $1 $2 $3 $program_directory $6
   exit
 fi
 

@@ -1,0 +1,27 @@
+[workspace]
+[package]
+name = "reth-lita"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+valida-rs = { git = "https://github.com/lita-xyz/valida-rs.git", rev ="84df845"}
+
+sp1-reth-primitives = { git = "https://github.com/succinctlabs/sp1-reth.git", branch = "john/update-for-v1" }
+alloy-rlp = { version = "0.3", default-features = false }
+reth-primitives = { git = "https://github.com/sp1-patches/reth-new", branch = "john/update-for-v1", default-features = false }
+revm = { git = "https://github.com/sp1-patches/revm-new", branch = "john/update-for-v1", features = [
+    "serde",
+], default-features = false }
+revm-primitives = { git = "https://github.com/sp1-patches/revm-new", branch = "john/update-for-v1", default-features = false }
+bincode = "1.3.3"
+serde = { version = "1.0.204", default-features = false, features = ["derive"] }
+
+
+# Let's try to patch some crates
+[patch.crates-io]
+radium = { git = "https://github.com/lita-xyz/ferrilab.git", branch = "radium-0.7.0-delendum" }
+cc = { git = "https://github.com/lita-xyz/cc-rs.git", branch = "1.1.18-delendum" }
+blst = { git = "https://github.com/lita-xyz/blst.git", branch = "0.3.13-delendum" }
+c-kzg = { git = "https://github.com/lita-xyz/c-kzg-4844.git", branch = "1.0.3-delendum" }
+zstd-sys = { git = "https://github.com/lita-xyz/zstd-rs.git", branch = "zstd-sys-2.0.13-delendum" }

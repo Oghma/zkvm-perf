@@ -38,7 +38,7 @@ create_csv_if_not_exists "$CSV_FILE_COMMIT" "$CSV_FILE_LATEST"
 start_time_prove=$(date +%s.%N)
 
 
-"$VALIDA_EXECUTABLE" prove "$TARGET" "$LITA_PROOF"
+"$VALIDA_EXECUTABLE" prove "$TARGET" "$LITA_PROOF" $5
 
 end_time_prove=$(date +%s.%N)
 
