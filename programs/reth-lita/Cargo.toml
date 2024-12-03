@@ -25,3 +25,6 @@ cc = { git = "https://github.com/lita-xyz/cc-rs.git", branch = "1.1.18-delendum"
 blst = { git = "https://github.com/lita-xyz/blst.git", branch = "0.3.13-delendum" }
 c-kzg = { git = "https://github.com/lita-xyz/c-kzg-4844.git", branch = "1.0.3-delendum" }
 zstd-sys = { git = "https://github.com/lita-xyz/zstd-rs.git", branch = "zstd-sys-2.0.13-delendum" }
+
+[features]
+lita = []
