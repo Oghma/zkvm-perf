@@ -1,7 +1,7 @@
 use std::fs;
 
 use crate::{
-    utils::{get_elf, get_reth_input, time_operation},
+    utils::{get_elf, /* get_reth_input, */ time_operation},
     EvalArgs, PerformanceReport, ProgramId,
 };
 
@@ -29,10 +29,11 @@ impl SP1Evaluator {
 
         // Get stdin.
         let stdin = if args.program == ProgramId::Reth {
-            let input = get_reth_input(args);
-            let mut stdin = SP1Stdin::new();
-            stdin.write(&input);
-            stdin
+            panic!("reth currently disabled")
+            // let input = get_reth_input(args);
+            // let mut stdin = SP1Stdin::new();
+            // stdin.write(&input);
+            // stdin
         } else {
             SP1Stdin::new()
         };
