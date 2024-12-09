@@ -1,3 +1,4 @@
+mod jolt;
 mod risc0;
 mod sp1;
 mod types;
@@ -75,6 +76,7 @@ fn main() {
     let report = match args.prover {
         ProverId::Risc0 => risc0::Risc0Evaluator::eval(&args),
         ProverId::SP1 => sp1::SP1Evaluator::eval(&args),
+        ProverId::Jolt => jolt::JoltEvaluator::eval(&args),
     };
 
     // Create the results directory if it doesn't exist.

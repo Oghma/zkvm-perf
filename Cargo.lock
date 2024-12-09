@@ -2180,6 +2180,13 @@ dependencies = [
 ]
 
 [[package]]
+name = "fibonacci-jolt"
+version = "0.1.0"
+dependencies = [
+ "jolt-sdk",
+]
+
+[[package]]
 name = "find_cuda_helper"
 version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -5880,6 +5887,7 @@ dependencies = [
  "chrono",
  "clap",
  "csv",
+ "fibonacci-jolt",
  "jolt-sdk",
  "risc0-zkvm",
  "serde",
