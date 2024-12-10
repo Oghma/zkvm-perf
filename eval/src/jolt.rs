@@ -3,8 +3,8 @@ use jolt_sdk::{Jolt, RV32IJoltVM, Serializable};
 
 #[cfg(feature = "jolt")]
 use fibonacci::{
-    analyze_main as analyze_fibonacci, preprocess_main as preprocess_fibonacci,
-    prove_main as prove_fibonacci,
+    analyze_func as analyze_fibonacci, preprocess_func as preprocess_fibonacci,
+    prove_func as prove_fibonacci,
 };
 
 use crate::{utils::time_operation, EvalArgs, PerformanceReport, ProgramId};

@@ -1,8 +1,6 @@
-#![cfg_attr(feature = "guest", no_std)]
-
 use std::hint::black_box;
 
-fn fibonacci(n: u32) -> u32 {
+fn fibonacci(n: u32) -> u64 {
     let mut a = 0;
     let mut b = 1;
     for _ in 0..n {
@@ -14,7 +12,7 @@ fn fibonacci(n: u32) -> u32 {
 }
 
 #[jolt::provable]
-pub fn main() {
+pub fn func() {
     let result = black_box(fibonacci(black_box(300000)));
     println!("result: {}", result);
 }

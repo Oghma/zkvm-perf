@@ -79,6 +79,11 @@ else
   FEATURES="$2"
 fi
 
+if [ "$2" = "jolt" ]; then
+  export RUSTFLAGS=""
+  export RUSTUP_TOOLCHAIN="nightly-2024-09-30"
+fi
+
 # Run the benchmark.
 cargo run \
     -p sp1-benchmarks-eval \
