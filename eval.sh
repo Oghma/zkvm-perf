@@ -49,6 +49,14 @@ if [ "$2" == "lita" ]; then
   exit
 fi
 
+if [ "$2" == "nexus" ]; then
+  echo "Building Nexus"
+  # Hardcode the memlimit to 8 MB
+  RUSTFLAGS="-C link-arg=--defsym=MEMORY_LIMIT=0x80000 -C link-arg=-T../../nova.x" \
+    CARGO_BUILD_TARGET=riscv32i-unknown-none-elf \
+    RUSTUP_TOOLCHAIN=1.77.0 \
+    cargo build --release --ignore-rust-version
+
 cd ../../
 
 echo "Running eval script"
