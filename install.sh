@@ -46,4 +46,9 @@ cd ../
 rm llvm-valida-v0.6.0-alpha-linux-x86_64.tar.xz
 rm -rf valida-toolchain
 
+# Install Nexus toolchain
+cargo install --git https://github.com/nexus-xyz/nexus-zkvm cargo-nexus --tag 'v0.2.4' || error_exit "Installing nexus toolchain"
+rustup target add riscv32i-unknown-none-elf || error_exit "Installing riscv32i architecture"
+cargo nexus --help || error_exit "Checking cargo nexus version"
+
 echo "All installations completed successfully."
