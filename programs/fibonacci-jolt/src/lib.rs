@@ -8,7 +8,7 @@ fn fibonacci(n: u32) -> u64 {
         a = b;
         b = sum;
     }
-    b
+    b.into()
 }
 
 #[jolt::provable]
