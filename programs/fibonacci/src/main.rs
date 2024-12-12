@@ -1,6 +1,9 @@
 #![no_main]
 
-use std::hint::black_box;
+#[cfg(feature = "nexus")]
+#![no_std]
+
+use core::hint::black_box;
 
 #[cfg(feature = "risc0")]
 risc0_zkvm::guest::entry!(main);
@@ -11,6 +14,11 @@ sp1_zkvm::entrypoint!(main);
 #[cfg(feature = "lita")]
 valida_rs::entrypoint!(main);
 
+#[cfg(feature = "nexus")]
+use nexus_rt::println;
+
+#[cfg(feature = "nexus")]
+#[nexus_rt::main]
 fn fibonacci(n: u32) -> u32 {
     let mut a = 0;
     let mut b = 1;
