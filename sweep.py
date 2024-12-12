@@ -75,7 +75,7 @@ def main():
         nargs="+",
         default=["sp1"],
         help="List of provers to use",
-        choices=["sp1", "risc0", "lita"],
+        choices=["sp1", "risc0", "lita", "jolt", "nexus"],
     )
     parser.add_argument(
         "--hashfns",
