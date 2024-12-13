@@ -4,7 +4,15 @@ from itertools import product
 
 
 def run_benchmark(
-    filename, trials, programs, provers, hashfns, shard_sizes, block_1, block_2
+    filename,
+    trials,
+    programs,
+    provers,
+    hashfns,
+    shard_sizes,
+    block_1,
+    block_2,
+    fibonacci_inputs,
 ):
     option_combinations = product(programs, provers, hashfns, shard_sizes)
     for program, prover, hashfn, shard_size in option_combinations:
@@ -41,6 +49,20 @@ def run_benchmark(
                         block_2,
                     ]
                 )
+            elif program == "fibonacci":
+                for input in fibonacci_inputs:
+                    subprocess.run(
+                        [
+                            "bash",
+                            "eval.sh",
+                            program,
+                            prover,
+                            hashfn,
+                            str(shard_size),
+                            filename,
+                            input,
+                        ]
+                    )
             else:
                 subprocess.run(
                     [
@@ -93,6 +115,11 @@ def main():
     )
     parser.add_argument("--block-1", default="17106222", help="Block number for reth1")
     parser.add_argument("--block-2", default="19409768", help="Block number for reth2")
+    parser.add_argument(
+        "--fibonacci",
+        default=[100, 1000, 10000, 300000],
+        help="input for fibonacci",
+    )
 
     args = parser.parse_args()
 
@@ -105,6 +132,7 @@ def main():
         args.shard_sizes,
         args.block_1,
         args.block_2,
+        args.fibonacci,
     )
 
 

@@ -31,6 +31,8 @@ pub struct EvalArgs {
     filename: String,
     #[arg(long)]
     block_number: Option<u64>,
+    #[arg(long)]
+    fibonacci_input: Option<u32>,
 }
 
 /// The performance report of a zkVM on a program.

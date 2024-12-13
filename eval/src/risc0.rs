@@ -2,18 +2,16 @@
 use std::fs;
 
 #[cfg(feature = "risc0")]
-use risc0_zkvm::{
-    compute_image_id, get_prover_server, ExecutorEnv, ExecutorImpl, ProverOpts, VerifierContext,
-};
-#[cfg(feature = "risc0")]
 use crate::{
     utils::{get_elf, /* get_reth_input, */ time_operation},
     HashFnId, ProgramId,
 };
-
-use crate::{
-    EvalArgs, PerformanceReport,
+#[cfg(feature = "risc0")]
+use risc0_zkvm::{
+    compute_image_id, get_prover_server, ExecutorEnv, ExecutorImpl, ProverOpts, VerifierContext,
 };
+
+use crate::{EvalArgs, PerformanceReport};
 
 pub struct Risc0Evaluator;
 
@@ -31,8 +29,8 @@ impl Risc0Evaluator {
         // Setup the prover.
         // If the program is Reth, read the block and set it as input. Otherwise, we assume other
         // benchmarking programs don't have input.
-        let env = if args.program == ProgramId::Reth {
-            panic!("reth currently disabled")
+        let env = match args.program {
+            ProgramId::Reth => panic!("reth currently disabled"),
             // let input = get_reth_input(args);
             // ExecutorEnv::builder()
             //     .segment_limit_po2(args.shard_size as u32)
@@ -40,8 +38,13 @@ impl Risc0Evaluator {
             //     .expect("Failed to write input to executor")
             //     .build()
             //     .unwrap()
-        } else {
-            ExecutorEnv::builder().segment_limit_po2(args.shard_size as u32).build().unwrap()
+            ProgramId::Fibonacci => ExecutorEnv::builder()
+                .write(&args.fibonacci_input.unwrap())
+                .segment_limit_po2(args.shard_size as u32)
+                .build()
+                .unwrap(),
+
+            _ => ExecutorEnv::builder().segment_limit_po2(args.shard_size as u32).build().unwrap(),
         };
 
         // Compute some statistics.

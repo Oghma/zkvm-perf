@@ -31,6 +31,11 @@ fn fibonacci(n: u32) -> u32 {
 }
 
 pub fn main() {
-    let result = black_box(fibonacci(black_box(300000)));
+    let input = 300000;
+
+    #[cfg(feature = "risc0")]
+    let input: u32 = risc0_zkvm::guest::env::read();
+
+    let result = black_box(fibonacci(black_box(input)));
     println!("result: {}", result);
 }
