@@ -1,8 +1,6 @@
 #![no_main]
 
-#[cfg(feature = "nexus")]
-#![no_std]
-
+#[cfg_attr(feature = "nexus", no_std)]
 use core::hint::black_box;
 
 #[cfg(feature = "risc0")]
@@ -17,8 +15,6 @@ valida_rs::entrypoint!(main);
 #[cfg(feature = "nexus")]
 use nexus_rt::println;
 
-#[cfg(feature = "nexus")]
-#[nexus_rt::main]
 fn fibonacci(n: u32) -> u32 {
     let mut a = 0;
     let mut b = 1;
@@ -30,9 +26,8 @@ fn fibonacci(n: u32) -> u32 {
     b
 }
 
+#[cfg_attr(feature = "nexus", nexus_rt::main)]
 pub fn main() {
-    let input = 300000;
-
     #[cfg(feature = "risc0")]
     let input: u32 = risc0_zkvm::guest::env::read();
 

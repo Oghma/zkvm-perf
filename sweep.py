@@ -60,7 +60,7 @@ def run_benchmark(
                             hashfn,
                             str(shard_size),
                             filename,
-                            input,
+                            str(input),
                         ]
                     )
             else:

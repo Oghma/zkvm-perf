@@ -56,6 +56,7 @@ if [ "$2" == "nexus" ]; then
     CARGO_BUILD_TARGET=riscv32i-unknown-none-elf \
     RUSTUP_TOOLCHAIN=1.77.0 \
     cargo build --release --ignore-rust-version
+fi
 
 cd ../../
 
@@ -104,4 +105,4 @@ cargo run \
     --hashfn "$3" \
     --shard-size "$4" \
     --filename "$5" \
-    ${6:+--block-number $6}
+     ${6:+$([[ "$1" == "fibonacci" ]] && echo "--fibonacci-input" || echo "--block-number") $6}
