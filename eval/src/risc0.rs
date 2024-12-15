@@ -40,7 +40,7 @@ impl Risc0Evaluator {
             //     .unwrap()
             ProgramId::Fibonacci => ExecutorEnv::builder()
                 .segment_limit_po2(args.shard_size as u32)
-                .write(args.fibonacci_input.unwrap())
+                .write(&args.fibonacci_input.expect("missing fibonacci input"))
                 .expect("Failed to write input to executor")
                 .build()
                 .unwrap(),

@@ -1,8 +1,10 @@
+#[cfg(feature = "sp1")]
 use std::fs;
 
+#[cfg(feature = "sp1")]
 use crate::{
     utils::{get_elf, /* get_reth_input, */ time_operation},
-    EvalArgs, PerformanceReport, ProgramId,
+    ProgramId,
 };
 
 #[cfg(feature = "cuda")]
@@ -12,6 +14,8 @@ use sp1_cuda::SP1CudaProver;
 use sp1_prover::{components::DefaultProverComponents, utils::get_cycles};
 #[cfg(feature = "sp1")]
 use sp1_sdk::{provers::ProofOpts, utils::setup_logger, SP1Context, SP1Prover, SP1Stdin};
+
+use crate::{EvalArgs, PerformanceReport};
 
 pub struct SP1Evaluator;
 
@@ -28,14 +32,18 @@ impl SP1Evaluator {
         }
 
         // Get stdin.
-        let stdin = if args.program == ProgramId::Reth {
-            panic!("reth currently disabled")
+        let stdin = match args.program {
+            ProgramId::Reth => panic!("reth currently disabled"),
             // let input = get_reth_input(args);
             // let mut stdin = SP1Stdin::new();
             // stdin.write(&input);
             // stdin
-        } else {
-            SP1Stdin::new()
+            ProgramId::Fibonacci => {
+                let mut stdin = SP1Stdin::new();
+                stdin.write(&args.fibonacci_input.expect("missing fibonacci input"));
+                stdin
+            }
+            _ => SP1Stdin::new(),
         };
 
         // Get the elf.

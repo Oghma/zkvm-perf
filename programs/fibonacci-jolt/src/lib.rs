@@ -8,11 +8,11 @@ fn fibonacci(n: u32) -> u64 {
         a = b;
         b = sum;
     }
-    b.into()
+    b
 }
 
 #[jolt::provable]
-pub fn func() {
-    let result = black_box(fibonacci(black_box(300000)));
+pub fn func(input: u32) {
+    let result = black_box(fibonacci(black_box(input)));
     println!("result: {}", result);
 }

@@ -1,6 +1,5 @@
 #![no_main]
-
-#[cfg_attr(feature = "nexus", no_std)]
+#![cfg_attr(feature = "nexus", no_std)]
 use core::hint::black_box;
 
 #[cfg(feature = "risc0")]

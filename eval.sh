@@ -55,7 +55,7 @@ if [ "$2" == "nexus" ]; then
   RUSTFLAGS="-C link-arg=--defsym=MEMORY_LIMIT=0x80000 -C link-arg=-T../../nova.x" \
     CARGO_BUILD_TARGET=riscv32i-unknown-none-elf \
     RUSTUP_TOOLCHAIN=1.77.0 \
-    cargo build --release --ignore-rust-version
+    cargo build --release --ignore-rust-version --features $2
 fi
 
 cd ../../

@@ -15,7 +15,7 @@
 // limitations under the License.
 
 #![no_main]
-
+#[cfg_attr(feature = "nexus", no_std)]
 #[cfg(feature = "risc0")]
 risc0_zkvm::guest::entry!(main);
 
@@ -35,6 +35,7 @@ fn main() {
     }
 }
 
+#[cfg_attr(feature = "nexus", nexus_rt::main)]
 #[allow(unused_variables)]
 pub fn memory_barrier<T>(ptr: *const T) {
     #[cfg(target_os = "zkvm")]

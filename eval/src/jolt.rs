@@ -7,7 +7,10 @@ use fibonacci::{
     prove_func as prove_fibonacci,
 };
 
-use crate::{utils::time_operation, EvalArgs, PerformanceReport, ProgramId};
+#[cfg(feature = "jolt")]
+use crate::{utils::time_operation, ProgramId};
+
+use crate::{EvalArgs, PerformanceReport};
 
 pub struct JoltEvaluator;
 
@@ -15,7 +18,19 @@ impl JoltEvaluator {
     #[cfg(feature = "jolt")]
     pub fn eval(args: &EvalArgs) -> PerformanceReport {
         let (analyze, preprocess, prove) = match args.program {
-            ProgramId::Fibonacci => (analyze_fibonacci, preprocess_fibonacci, prove_fibonacci),
+            ProgramId::Fibonacci => {
+                let analyze =
+                    || analyze_fibonacci(args.fibonacci_input.expect("missing fibonacci input"));
+                let prove = |program, preprocessing| {
+                    prove_fibonacci(
+                        program,
+                        preprocessing,
+                        args.fibonacci_input.expect("missing fibonacci input"),
+                    )
+                };
+
+                (analyze, preprocess_fibonacci, prove)
+            }
             _ => panic!("not implemented yet"),
         };
 
