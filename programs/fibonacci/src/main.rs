@@ -30,6 +30,12 @@ pub fn main() {
     #[cfg(feature = "risc0")]
     let input: u32 = risc0_zkvm::guest::env::read();
 
+    #[cfg(feature = "sp1")]
+    let input = sp1_zkvm::io::read::<u32>();
+
+    #[cfg(feature = "nexus")]
+    let input = nexus_rt::read_private_input::<u32>().unwrap();
+
     let result = black_box(fibonacci(black_box(input)));
     println!("result: {}", result);
 }

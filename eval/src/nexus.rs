@@ -1,3 +1,4 @@
+#[cfg(feature = "nexus")]
 use std::fs;
 
 #[cfg(feature = "nexus")]
@@ -6,16 +7,18 @@ use nexus_sdk::{
     Prover, Verifiable,
 };
 
-use crate::{
-    utils::{get_elf, time_operation},
-    EvalArgs, PerformanceReport,
-};
+#[cfg(feature = "nexus")]
+use crate::utils::{get_elf, time_operation};
+
+use crate::{EvalArgs, PerformanceReport};
 
 pub struct NexusEvaluator;
 
 impl NexusEvaluator {
     #[cfg(feature = "nexus")]
     pub fn eval(args: &EvalArgs) -> PerformanceReport {
+        use crate::ProgramId;
+
         let elf_path = get_elf(args);
         let elf = fs::read(&elf_path).unwrap();
 
@@ -26,8 +29,17 @@ impl NexusEvaluator {
             time_operation(|| Nova::new(&elf).expect("failed to load program"));
 
         // Generate the proof.
-        let (proof, core_prove_duration) =
-            time_operation(|| prover.prove(&pp).expect("failed to prove program"));
+        let (proof, core_prove_duration) = match args.program {
+            ProgramId::Fibonacci => time_operation(|| {
+                prover
+                    .prove_with_input::<u32>(
+                        &pp,
+                        &args.fibonacci_input.expect("missing fibonacci input"),
+                    )
+                    .expect("failed to prove program")
+            }),
+            _ => time_operation(|| prover.prove(&pp).expect("failed to prove program")),
+        };
 
         // Verify the proof
         let (_, core_verify_duration) =
