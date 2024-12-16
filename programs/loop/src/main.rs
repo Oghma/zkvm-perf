@@ -15,7 +15,7 @@
 // limitations under the License.
 
 #![no_main]
-#[cfg_attr(feature = "nexus", no_std)]
+#![cfg_attr(feature = "nexus", no_std)]
 #[cfg(feature = "risc0")]
 risc0_zkvm::guest::entry!(main);
 
@@ -28,6 +28,7 @@ use core::arch::asm;
 #[cfg(feature = "lita")]
 valida_rs::entrypoint!(main);
 
+#[cfg_attr(feature = "nexus", nexus_rt::main)]
 fn main() {
     let iterations = 3000 * 1024;
     for i in 0..iterations {
@@ -35,7 +36,6 @@ fn main() {
     }
 }
 
-#[cfg_attr(feature = "nexus", nexus_rt::main)]
 #[allow(unused_variables)]
 pub fn memory_barrier<T>(ptr: *const T) {
     #[cfg(target_os = "zkvm")]
