@@ -2,6 +2,18 @@
 set -e
 echo "Running $1, $2, $3, $4, $5"
 
+# If $2 == nexus, append precompiles to Cargo.toml
+if [ "$2" = "nexus" ]; then
+    cp Cargo.toml Cargo.toml.bak
+    cat precompiles_nexus.txt >> Cargo.toml
+fi
+
+# If $2 == jolt, append precompiles to Cargo.toml
+if [ "$2" = "jolt" ]; then
+    cp Cargo.toml Cargo.toml.bak
+    cat precompiles_jolt.txt >> Cargo.toml
+fi
+
 # Get program directory name as $1 and append "-$2" to it if $1 == "tendermint"
 if [ "$1" = "tendermint" ] || [ "$1" = "reth" ]; then
     program_directory="${1}-$2"
@@ -106,3 +118,8 @@ cargo run \
     --shard-size "$4" \
     --filename "$5" \
      ${6:+$([[ "$1" == "fibonacci" ]] && echo "--fibonacci-input" || echo "--block-number") $6}
+
+# Revert Cargo.toml as the last step
+if [ "$2" = "nexus" ] || [ "$2" = "jolt" ]; then
+    mv Cargo.toml.bak Cargo.toml
+fi
