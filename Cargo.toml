@@ -21,9 +21,6 @@ debug-assertions = true
 [profile.release.build-override]
 opt-level = 3
 
-[patch.crates-io]
-ark-ff = { git = "https://github.com/a16z/arkworks-algebra", branch = "optimize/field-from-u64" }
-ark-ec = { git = "https://github.com/a16z/arkworks-algebra", branch = "optimize/field-from-u64" }
-ark-serialize = { git = "https://github.com/a16z/arkworks-algebra", branch = "optimize/field-from-u64" }
-revm-interpreter = { git = "https://github.com/sp1-patches/revm-new", branch = "john/update-for-v1" }
-revm-primitives = { git = "https://github.com/sp1-patches/revm-new", branch = "john/update-for-v1" }
+# [patch.crates-io]
+# revm-interpreter = { git = "https://github.com/sp1-patches/revm-new", branch = "john/update-for-v1" }
+# revm-primitives = { git = "https://github.com/sp1-patches/revm-new", branch = "john/update-for-v1" }
