@@ -6,6 +6,15 @@ use fibonacci::{
     analyze_func as analyze_fibonacci, preprocess_func as preprocess_fibonacci,
     prove_func as prove_fibonacci,
 };
+#[cfg(feature = "jolt")]
+use loop_j::{
+    analyze_func as analyze_loop, preprocess_func as preprocess_loop, prove_func as prove_loop,
+};
+#[cfg(feature = "jolt")]
+use tendermint_j::{
+    analyze_func as analyze_tendermint, preprocess_func as preprocess_tendermint,
+    prove_func as prove_tendermint,
+};
 
 #[cfg(feature = "jolt")]
 use crate::{utils::time_operation, ProgramId};
@@ -31,6 +40,8 @@ impl JoltEvaluator {
 
                 (analyze, preprocess_fibonacci, prove)
             }
+            ProgramId::Loop => (analyze_loop, preprocess_loop, prove_loop),
+            ProgramId::Tendermint => (analyze_tendermint, preprocess_tendermint, prove_tendermint),
             _ => panic!("not implemented yet"),
         };
 
