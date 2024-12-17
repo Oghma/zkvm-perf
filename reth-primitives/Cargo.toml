@@ -4,14 +4,18 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-alloy-primitives = { version = "0.8.4", features = ["sha3-keccak"] }
-alloy-rpc-types = { version = "0.3", default-features = false }
-alloy-rlp = "0.3.4"
 reth-primitives = { git = "https://github.com/sp1-patches/reth", tag = "rsp-20240830", default-features = false }
 reth-trie = { git = "https://github.com/sp1-patches/reth", tag = "rsp-20240830", default-features = false }
 reth-chainspec = { git = "https://github.com/sp1-patches/reth", tag = "rsp-20240830", default-features = false }
 reth-db = { git = "https://github.com/sp1-patches/reth", tag = "rsp-20240830", default-features = false }
+
+# revm
 revm = { version = "14.0.0", default-features = false }
+
+# alloy
+alloy-primitives = { version = "0.8.4", features = ["sha3-keccak"] }
+alloy-rpc-types = { version = "0.3", default-features = false }
+alloy-rlp = "0.3.4"
 rlp = "0.5.2"
 serde = { version = "1.0", default-features = false, features = ["derive"] }
 anyhow = { version = "1.0.86", default-features = false }
