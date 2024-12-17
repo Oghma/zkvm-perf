@@ -1,5 +1,5 @@
 [workspace]
-members = ["eval"]
+members = ["eval", "reth-primitives"]
 
 resolver = "2"
 
