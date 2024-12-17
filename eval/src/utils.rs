@@ -1,7 +1,7 @@
 use core::time;
 use std::{env, fs, time::Instant};
 
-// use sp1_reth_primitives::SP1RethInput;
+use sp1_reth_primitives::SP1RethInput;
 
 use crate::{EvalArgs, ProgramId, ProverId};
 
@@ -29,36 +29,36 @@ pub fn get_elf(args: &EvalArgs) -> String {
     elf_path_str
 }
 
-// pub fn get_reth_input(args: &EvalArgs) -> SP1RethInput {
-//     if let Some(block_number) = args.block_number {
-//         let current_dir = env::current_dir().expect("Failed to get current working directory");
+pub fn get_reth_input(args: &EvalArgs) -> SP1RethInput {
+    if let Some(block_number) = args.block_number {
+        let current_dir = env::current_dir().expect("Failed to get current working directory");
 
-//         let blocks_dir = current_dir.join("eval").join("blocks");
+        let blocks_dir = current_dir.join("eval").join("blocks");
 
-//         let file_path = blocks_dir.join(format!("{}.bin", block_number));
+        let file_path = blocks_dir.join(format!("{}.bin", block_number));
 
-//         if let Ok(bytes) = fs::read(file_path) {
-//             bincode::deserialize(&bytes).expect("Unable to deserialize input")
-//         } else {
-//             let blocks: Vec<String> = fs::read_dir(&blocks_dir)
-//                 .unwrap_or_else(|_| panic!("Failed to read blocks directory: {:?}", blocks_dir))
-//                 .filter_map(|entry| {
-//                     entry.ok().and_then(|e| {
-//                         e.path().file_stem().and_then(|n| n.to_str().map(String::from))
-//                     })
-//                 })
-//                 .collect();
+        if let Ok(bytes) = fs::read(file_path) {
+            bincode::deserialize(&bytes).expect("Unable to deserialize input")
+        } else {
+            let blocks: Vec<String> = fs::read_dir(&blocks_dir)
+                .unwrap_or_else(|_| panic!("Failed to read blocks directory: {:?}", blocks_dir))
+                .filter_map(|entry| {
+                    entry.ok().and_then(|e| {
+                        e.path().file_stem().and_then(|n| n.to_str().map(String::from))
+                    })
+                })
+                .collect();
 
-//             panic!(
-//                 "Block {} not supported. Please choose from: {}",
-//                 block_number,
-//                 blocks.join(", ")
-//             );
-//         }
-//     } else {
-//         panic!("Block number is required for Reth program");
-//     }
-// }
+            panic!(
+                "Block {} not supported. Please choose from: {}",
+                block_number,
+                blocks.join(", ")
+            );
+        }
+    } else {
+        panic!("Block number is required for Reth program");
+    }
+}
 
 pub fn time_operation<T, F: FnOnce() -> T>(operation: F) -> (T, time::Duration) {
     let start = Instant::now();

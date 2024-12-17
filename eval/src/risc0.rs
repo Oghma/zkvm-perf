@@ -30,14 +30,15 @@ impl Risc0Evaluator {
         // If the program is Reth, read the block and set it as input. Otherwise, we assume other
         // benchmarking programs don't have input.
         let env = match args.program {
-            ProgramId::Reth => panic!("reth currently disabled"),
-            // let input = get_reth_input(args);
-            // ExecutorEnv::builder()
-            //     .segment_limit_po2(args.shard_size as u32)
-            //     .write(&input)
-            //     .expect("Failed to write input to executor")
-            //     .build()
-            //     .unwrap()
+            ProgramId::Reth => {
+                let input = get_reth_input(args);
+                ExecutorEnv::builder()
+                    .segment_limit_po2(args.shard_size as u32)
+                    .write(&input)
+                    .expect("Failed to write input to executor")
+                    .build()
+                    .unwrap()
+            }
             ProgramId::Fibonacci => ExecutorEnv::builder()
                 .segment_limit_po2(args.shard_size as u32)
                 .write(&args.fibonacci_input.expect("missing fibonacci input"))

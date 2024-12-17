@@ -7682,6 +7682,7 @@ dependencies = [
  "sp1-sdk",
  "tendermint-jolt",
  "vergen",
+ "zk-reth-primitives",
 ]
 
 [[package]]
